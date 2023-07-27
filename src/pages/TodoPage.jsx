@@ -1,10 +1,4 @@
-import {
-  Footer,
-  Header,
-  TodoCollection,
-  TodoInput,
-  TodoItem,
-} from 'components';
+import { Footer, Header, TodoCollection, TodoInput } from 'components';
 import { useState } from 'react';
 
 const dummyTodos = [
@@ -122,11 +116,7 @@ const TodoPage = () => {
 
   const handleDelete = (id) => {
     setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => {
-        if (todo.id !== id) {
-          return { ...todo };
-        }
-      });
+      return prevTodos.filter((todo) => todo.id !== id);
     });
   };
 
