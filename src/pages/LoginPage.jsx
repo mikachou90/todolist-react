@@ -7,10 +7,26 @@ import {
 import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState } from 'react';
+import { login } from '../api/auth';
 
 const LoginPage = () => {
-  const [userName, setUserName] = useState('');
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleClick = async () => {
+    if (username.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
+
+    const { susscess, authToken } = await login({ username, password });
+
+    if (susscess) {
+      localStorage.setItem('authToken', authToken);
+    }
+  };
 
   return (
     <AuthContainer>
@@ -22,7 +38,7 @@ const LoginPage = () => {
       <AuthInputContainer>
         <AuthInput
           label={'帳號'}
-          value={userName}
+          value={username}
           placeholder={'請輸入帳號'}
           onChange={(nameInputValue) => setUserName(nameInputValue)}
         />
@@ -36,7 +52,7 @@ const LoginPage = () => {
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
       </AuthInputContainer>
-      <AuthButton>登入</AuthButton>
+      <AuthButton onClick={handleClick}>登入</AuthButton>
       <AuthLinkText>註冊</AuthLinkText>
     </AuthContainer>
   );
