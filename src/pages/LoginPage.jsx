@@ -8,6 +8,7 @@ import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
 import { useState } from 'react';
 import { login } from '../api/auth';
+import Swal from 'sweetalert2';
 
 const LoginPage = () => {
   const [username, setUserName] = useState('');
@@ -21,11 +22,28 @@ const LoginPage = () => {
       return;
     }
 
-    const { susscess, authToken } = await login({ username, password });
-
-    if (susscess) {
+    const { success, authToken } = await login({
+      username,
+      password,
+    });
+    if (success) {
       localStorage.setItem('authToken', authToken);
+      Swal.fire({
+        position: 'top',
+        title: '登入成功！',
+        timer: 1500,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      return;
     }
+    Swal.fire({
+      position: 'top',
+      title: '登入失敗！',
+      timer: 1500,
+      icon: 'error',
+      showConfirmButton: false,
+    });
   };
 
   return (
