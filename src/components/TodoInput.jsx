@@ -47,7 +47,7 @@ const StyledInputContainer = styled.div`
       font-size: 13px;
     }
   }
-  $.active {
+  .active {
     input::placeholder {
       color: var(--gray);
     }
