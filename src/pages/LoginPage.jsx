@@ -9,10 +9,13 @@ import { AuthInput } from 'components';
 import { useState } from 'react';
 import { login } from '../api/auth';
 import Swal from 'sweetalert2';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     if (username.length === 0) {
@@ -35,6 +38,7 @@ const LoginPage = () => {
         icon: 'success',
         showConfirmButton: false,
       });
+      navigate('/todos');
       return;
     }
     Swal.fire({
@@ -71,7 +75,9 @@ const LoginPage = () => {
         />
       </AuthInputContainer>
       <AuthButton onClick={handleClick}>登入</AuthButton>
-      <AuthLinkText>註冊</AuthLinkText>
+      <Link to="/signup">
+        <AuthLinkText>註冊</AuthLinkText>
+      </Link>
     </AuthContainer>
   );
 };
