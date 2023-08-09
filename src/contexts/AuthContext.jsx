@@ -1,6 +1,8 @@
-import { createContext, useState } from 'react';
-import { login, register } from '../api/auth';
+import { createContext, useState, useEffect } from 'react';
+import { login, register, checkPermission } from '../api/auth';
 import * as jwt from 'jsonwebtoken';
+import { useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 
 //定義共享的狀態和方法
 const defaultAuthContext = {
@@ -12,9 +14,37 @@ const defaultAuthContext = {
 };
 
 const AuthContext = createContext(defaultAuthContext);
+
+//自定義hook，在其他元件只要匯入 useAuth 就能取用這個 Context 的內容
+export const useAuth = () => useContext(AuthContext);
+
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
+  const { pathname } = useLocation();
+
+  //在頁面轉換時驗證token
+  useEffect(() => {
+    const checkTokenIsValid = async () => {
+      const authToken = localStorage.getItem('authToken');
+      if (!authToken) {
+        setIsAuthenticated(false);
+        setPayload(null);
+        return;
+      }
+      const result = await checkPermission(authToken);
+      if (result) {
+        setIsAuthenticated(true);
+        const tempPayload = jwt.decode(authToken);
+        setPayload(tempPayload);
+      } else {
+        setIsAuthenticated(false);
+        setPayload(null);
+      }
+    };
+
+    checkTokenIsValid();
+  }, [pathname]);
 
   return (
     <AuthContext.Provider
@@ -67,5 +97,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-export default AuthContext;
