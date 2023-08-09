@@ -16,13 +16,8 @@
       "id": 3
     },
     {
-      "title": "Learn to implement auth",
-      "isDone": false,
-      "id": 4
-    },
-    {
       "title": "hello",
-      "isDone": false,
+      "isDone": true,
       "id": 6
     }
   ]

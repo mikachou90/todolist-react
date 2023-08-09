@@ -50,7 +50,10 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        currentMember: payload,
+        currentMember: payload && {
+          id: payload.sub,
+          name: payload.name,
+        },
 
         register: async (data) => {
           const { success, authToken } = await register({
@@ -59,9 +62,10 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
           });
           const tempPayload = jwt.decode(authToken);
-          if (authToken) {
+          if (tempPayload) {
             setPayload(tempPayload);
             setIsAuthenticated(true);
+            localStorage.setItem('authToken', authToken);
           } else {
             setPayload(null);
             setIsAuthenticated(false);
@@ -76,9 +80,10 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
           });
           const tempPayload = jwt.decode(authToken);
-          if (authToken) {
+          if (tempPayload) {
             setPayload(tempPayload);
             setIsAuthenticated(true);
+            localStorage.setItem('authToken', authToken);
           } else {
             setPayload(null);
             setIsAuthenticated(false);
