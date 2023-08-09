@@ -14,9 +14,7 @@ import { useAuth } from 'contexts/AuthContext';
 const LoginPage = () => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
   const { login, isAuthenticated } = useAuth();
-
   const navigate = useNavigate();
 
   const handleClick = async () => {
