@@ -40,7 +40,7 @@ const TodoPage = () => {
       });
       setInputValue('');
     } catch (error) {
-      console.error(error);
+      console.error('handleAddTodo: ', error);
     }
   };
 
@@ -146,7 +146,7 @@ const TodoPage = () => {
         const todos = await getTodos();
         setTodos(todos.map((todo) => ({ ...todo, isEdit: false })));
       } catch (error) {
-        console.log(error);
+        console.log('app start: ', error);
       }
     };
     getTodosAsync();
