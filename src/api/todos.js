@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://todo-list.alphacamp.io/';
+const baseUrl = 'https://todo-list.alphacamp.io/api';
 
 const axiosInstance = axios.create({
   baseUrl: baseUrl,
@@ -39,7 +39,7 @@ export const createTodo = async (payload) => {
     });
     return res.data;
   } catch (error) {
-    console.log('[Creat Todo faliled]', error);
+    console.log('[Creat Todo failed]', error);
   }
 };
 
